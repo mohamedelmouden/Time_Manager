@@ -15,7 +15,6 @@
   --color-brass-dim: #d97706;
   --color-teal: #2dd4bf;
   --color-rose: #fb7185;
-  --color-indigo: #818cf8;
   --color-success: #4ade80;
 }
 
@@ -55,7 +54,6 @@
     color: var(--color-ivory);
   }
 
-  /* Custom scrollbar */
   ::-webkit-scrollbar {
     width: 4px;
   }
@@ -84,54 +82,49 @@
   100% { transform: scale(1.5); opacity: 0; }
 }
 
-@keyframes shimmer {
+@keyframes shimmer-move {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
 
-@keyframes float {
+@keyframes float-y {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-4px); }
+  50% { transform: translateY(-6px); }
 }
 
-@keyframes timer-pulse {
+@keyframes timer-blink {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  50% { opacity: 0.4; }
 }
 
-@keyframes slide-up {
-  from { opacity: 0; transform: translateY(16px); }
+@keyframes slide-up-anim {
+  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes slide-in-bottom {
+@keyframes slide-bottom-anim {
   from { opacity: 0; transform: translateY(100%); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes fade-in {
+@keyframes fade-anim {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-@keyframes progress-fill {
+@keyframes progress-grow {
   from { width: 0%; }
 }
 
-@keyframes scale-in {
-  from { transform: scale(0.9); opacity: 0; }
+@keyframes scale-pop {
+  from { transform: scale(0.85); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
 
-@keyframes check-pop {
+@keyframes check-bounce {
   0% { transform: scale(0.5); }
-  50% { transform: scale(1.2); }
+  50% { transform: scale(1.25); }
   100% { transform: scale(1); }
-}
-
-@keyframes countdown-tick {
-  0% { transform: scaleX(1); }
-  100% { transform: scaleX(0); }
 }
 
 .flame-outer {
@@ -150,80 +143,68 @@
   animation: ember-glow 2.6s ease-in-out infinite;
 }
 
-.animate-slide-up {
-  animation: slide-up 0.4s ease-out both;
+@utility waqd-slide-up {
+  animation: slide-up-anim 0.45s ease-out both;
 }
 
-.animate-slide-in-bottom {
-  animation: slide-in-bottom 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+@utility waqd-slide-bottom {
+  animation: slide-bottom-anim 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.animate-fade-in {
-  animation: fade-in 0.3s ease-out both;
+@utility waqd-fade {
+  animation: fade-anim 0.3s ease-out both;
 }
 
-.animate-scale-in {
-  animation: scale-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+@utility waqd-scale-pop {
+  animation: scale-pop 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.animate-check-pop {
-  animation: check-pop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+@utility waqd-check {
+  animation: check-bounce 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.animate-pulse-ring {
+@utility waqd-pulse-ring {
   animation: pulse-ring 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
-.animate-timer-pulse {
-  animation: timer-pulse 1s ease-in-out infinite;
+@utility waqd-timer-blink {
+  animation: timer-blink 1s ease-in-out infinite;
 }
 
-.animate-float {
-  animation: float 3s ease-in-out infinite;
+@utility waqd-float {
+  animation: float-y 3s ease-in-out infinite;
 }
 
-.animate-progress-fill {
-  animation: progress-fill 0.8s ease-out both;
+@utility waqd-progress {
+  animation: progress-grow 0.8s ease-out both;
 }
 
-.glass-card {
-  background: linear-gradient(135deg, rgba(28, 25, 23, 0.9), rgba(41, 37, 36, 0.6));
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(68, 64, 60, 0.5);
+@utility waqd-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.08), transparent);
+  background-size: 200% 100%;
+  animation: shimmer-move 2.5s infinite;
 }
 
-.gradient-ember {
+@utility waqd-gradient-ember {
   background: linear-gradient(135deg, #f97316, #fb923c);
 }
 
-.gradient-brass {
+@utility waqd-gradient-brass {
   background: linear-gradient(135deg, #fbbf24, #f59e0b);
 }
 
-.gradient-card {
-  background: linear-gradient(145deg, var(--color-panel), var(--color-surface));
+@utility waqd-gradient-card {
+  background: linear-gradient(145deg, #1c1917, #292524);
 }
 
-.shimmer {
-  background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.1), transparent);
-  background-size: 200% 100%;
-  animation: shimmer 2s infinite;
+@utility waqd-gradient-fade-bottom {
+  background: linear-gradient(to top, #0c0a09 0%, #0c0a09 40%, transparent 100%);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .flame-outer,
   .flame-inner,
-  .ember-glow,
-  .animate-slide-up,
-  .animate-slide-in-bottom,
-  .animate-fade-in,
-  .animate-scale-in,
-  .animate-check-pop,
-  .animate-pulse-ring,
-  .animate-timer-pulse,
-  .animate-float,
-  .animate-progress-fill,
-  .shimmer {
+  .ember-glow {
     animation: none;
   }
 }

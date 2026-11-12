@@ -77,7 +77,7 @@ export function WaqdApp() {
   if (!ready || !today) {
     return (
       <main className="mx-auto flex min-h-dvh w-full max-w-md flex-col items-center justify-center px-5">
-        <div className="animate-float">
+        <div className="waqd-float">
           <Flame className="size-12 text-ember" />
         </div>
         <p className="font-display text-5xl leading-none mt-4">وَقْد</p>
@@ -104,71 +104,65 @@ export function WaqdApp() {
     setSheetDate(date ?? addDays(today!, 1));
   }
 
-
   return (
     <div className="min-h-dvh overflow-x-hidden bg-ink text-ivory">
-      <main className="mx-auto flex w-full max-w-md flex-col gap-6 px-5 pt-6 pb-32">
+      <main className="mx-auto flex w-full max-w-md flex-col gap-7 px-5 pt-6 pb-36">
         {/* ─── Header ─── */}
-        <header className="flex items-end justify-between gap-4 animate-slide-up">
+        <header className="flex items-end justify-between gap-4 waqd-slide-up">
           <div className="flex items-center gap-3">
-            <div className="grid size-10 place-items-center rounded-xl gradient-ember shadow-lg shadow-ember/20">
-              <Flame className="size-5 text-ink" />
+            <div className="grid size-11 place-items-center rounded-2xl waqd-gradient-ember shadow-lg shadow-ember/25">
+              <Flame className="size-5 text-white" />
             </div>
             <div>
               <h1 className="font-display text-3xl leading-none">وَقْد</h1>
               <p className="text-xs text-clay mt-0.5">صُن وقتك من التفاهة</p>
             </div>
           </div>
-          <div className="flex flex-col items-end gap-0.5 pb-1">
-            <p className="text-sm font-medium text-ivory/90">{formatDay(today)}</p>
-          </div>
+          <p className="pb-1 text-sm font-medium text-ivory/80">{formatDay(today)}</p>
         </header>
 
         {/* ─── Flame Section ─── */}
-        <section aria-labelledby="flame-heading" className="flex flex-col items-center animate-slide-up" style={{ animationDelay: "100ms" }}>
+        <section aria-labelledby="flame-heading" className="flex flex-col items-center waqd-slide-up" style={{ animationDelay: "80ms" }}>
           <h2 id="flame-heading" className="sr-only">شعلة الأيام</h2>
-          
+
           <div className="relative flex w-full flex-col items-center">
             <FlameMark level={view.level} alive={view.alive} />
             <div
               className={clsx(
-                "relative z-10 -mt-8 flex size-48 flex-col items-center justify-center rounded-full border-2 bg-ink shadow-2xl transition-all duration-500",
+                "relative z-10 -mt-8 flex size-48 flex-col items-center justify-center rounded-full border-2 bg-ink transition-all duration-500",
                 view.alive
-                  ? "border-ember/60 shadow-ember/10"
-                  : "border-line/40 shadow-none",
+                  ? "border-ember/50 shadow-[0_0_40px_rgba(249,115,22,0.15)]"
+                  : "border-line/30",
               )}
             >
-              {/* Inner ring */}
               <div
                 className={clsx(
                   "absolute inset-2 rounded-full border transition-colors duration-500",
-                  view.alive ? "border-brass/20" : "border-line/20",
+                  view.alive ? "border-brass/15" : "border-line/15",
                 )}
               />
-              {/* Shimmer effect */}
-              {view.alive ? <div className="absolute inset-2 rounded-full shimmer" /> : null}
-              
+              {view.alive ? <div className="absolute inset-2 rounded-full waqd-shimmer" /> : null}
+
               <p
                 data-testid="streak-count"
                 className={clsx(
                   "font-display text-6xl leading-none transition-colors duration-300",
-                  view.alive ? "text-ivory" : "text-clay/70",
+                  view.alive ? "text-ivory" : "text-clay/60",
                 )}
               >
                 {toAr(view.count)}
               </p>
-              <p className="mt-2 text-xs text-clay/80">يوم بلا تفاهة</p>
+              <p className="mt-2 text-xs text-clay/70">يوم بلا تفاهة</p>
             </div>
           </div>
-          
-          {/* Motivational text */}
+
           <p className="mt-5 max-w-xs text-center text-sm leading-relaxed text-clay">{view.copy}</p>
           {view.anchor ? (
             <p className="mt-1.5 text-center text-xs text-brass-dim">مشتعلة منذ {formatDay(view.anchor)}</p>
           ) : null}
 
           {/* ─── Week dots ─── */}
-          <ol className="mt-6 flex w-full justify-between gap-1 rounded-2xl gradient-card border border-line/30 px-4 py-3">
+          <ol className="mt-6 flex w-full justify-between gap-1 rounded-2xl waqd-gradient-card border border-line/25 px-4 py-3.5">
             {recentDays(today).map((key) => {
               const mark = dayMark(data.flame, key, today);
               const isToday = key === today;
@@ -177,41 +171,41 @@ export function WaqdApp() {
                   <span
                     className={clsx(
                       "size-3.5 rounded-full transition-all duration-300",
-                      mark === "clean" && "bg-ember shadow-sm shadow-ember/30",
-                      mark === "slip" && "bg-line/60",
+                      mark === "clean" && "bg-ember shadow-sm shadow-ember/40",
+                      mark === "slip" && "bg-line/50",
                       mark === "idle" && isToday && "border-2 border-brass",
-                      mark === "idle" && !isToday && "border border-line/40",
+                      mark === "idle" && !isToday && "border border-line/30",
                     )}
                   />
-                  <span className={clsx("text-xs font-medium", isToday ? "text-ivory" : "text-clay/60")}>{weekdayLetter(key)}</span>
+                  <span className={clsx("text-xs font-medium", isToday ? "text-ivory" : "text-clay/50")}>{weekdayLetter(key)}</span>
                 </li>
               );
             })}
           </ol>
 
-          {/* ─── Stats ─── */}
+          {/* ─── Stats Cards ─── */}
           <dl className="mt-4 grid w-full grid-cols-2 gap-3">
-            <div className="flex items-center gap-3 rounded-2xl gradient-card border border-line/30 px-4 py-3.5">
-              <div className="grid size-9 place-items-center rounded-xl bg-brass/10">
-                <Trophy className="size-4 text-brass" />
+            <div className="flex items-center gap-3 rounded-2xl waqd-gradient-card border border-line/25 px-4 py-4">
+              <div className="grid size-10 shrink-0 place-items-center rounded-xl bg-brass/10">
+                <Trophy className="size-5 text-brass" />
               </div>
               <div>
                 <dt className="text-xs text-clay">أفضل وهج</dt>
-                <dd className="font-display text-2xl leading-none mt-0.5">{toAr(view.best)}</dd>
+                <dd className="font-display text-3xl leading-none mt-0.5">{toAr(view.best)}</dd>
               </div>
             </div>
-            <div className="flex items-center gap-3 rounded-2xl gradient-card border border-line/30 px-4 py-3.5">
-              <div className="grid size-9 place-items-center rounded-xl bg-ember/10">
-                <Calendar className="size-4 text-ember" />
+            <div className="flex items-center gap-3 rounded-2xl waqd-gradient-card border border-line/25 px-4 py-4">
+              <div className="grid size-10 shrink-0 place-items-center rounded-xl bg-ember/10">
+                <Calendar className="size-5 text-ember" />
               </div>
               <div>
                 <dt className="text-xs text-clay">أيام مصونة</dt>
-                <dd className="font-display text-2xl leading-none mt-0.5">{toAr(view.total)}</dd>
+                <dd className="font-display text-3xl leading-none mt-0.5">{toAr(view.total)}</dd>
               </div>
             </div>
           </dl>
 
-          {/* ─── Flame actions ─── */}
+          {/* ─── Flame Actions ─── */}
           <div className="mt-5 flex w-full flex-col gap-2">
             {!view.alive && !view.slippedToday ? (
               <>
@@ -219,28 +213,25 @@ export function WaqdApp() {
                   type="button"
                   data-testid="light-flame"
                   onClick={() => light(today)}
-                  className="h-12 rounded-full gradient-ember text-base font-semibold text-ink shadow-lg shadow-ember/20 transition-all hover:shadow-xl hover:shadow-ember/30 active:scale-[0.98]"
+                  className="h-13 rounded-2xl waqd-gradient-ember text-base font-bold text-white shadow-lg shadow-ember/25 transition-transform active:scale-[0.97]"
                 >
-                  أُشعل الشعلة
+                  🔥 أُشعل الشعلة
                 </button>
                 <button
                   type="button"
                   onClick={() => {
-                    setStartAsk((open) => !open);
+                    setStartAsk((v) => !v);
                     setStartDate(addDays(today, -1));
                     setFlameError(null);
                   }}
-                  className="h-11 text-sm text-clay transition-colors hover:text-ivory"
+                  className="h-11 text-sm text-clay hover:text-ivory transition-colors"
                 >
                   بدأت قبل اليوم
                 </button>
                 {startAsk ? (
                   <form
-                    className="flex flex-col gap-3 rounded-2xl gradient-card border border-line/30 p-4 animate-scale-in"
-                    onSubmit={(event) => {
-                      event.preventDefault();
-                      light(startDate);
-                    }}
+                    className="flex flex-col gap-3 rounded-2xl waqd-gradient-card border border-line/25 p-4 waqd-scale-pop"
+                    onSubmit={(e) => { e.preventDefault(); light(startDate); }}
                   >
                     <label className="flex flex-col gap-2 text-sm">
                       <span className="text-clay font-medium">أول يوم لم يضع بعده وقتك</span>
@@ -248,11 +239,11 @@ export function WaqdApp() {
                         type="date"
                         max={today}
                         value={startDate}
-                        onChange={(event) => setStartDate(event.target.value)}
-                        className="h-12 rounded-xl border border-line/40 bg-surface/50 px-4 text-base outline-none transition-all focus-visible:border-brass focus-visible:ring-1 focus-visible:ring-brass/30"
+                        onChange={(e) => setStartDate(e.target.value)}
+                        className="h-12 rounded-xl border border-line/30 bg-surface px-4 text-base outline-none focus-visible:border-brass focus-visible:ring-1 focus-visible:ring-brass/20"
                       />
                     </label>
-                    <button type="submit" className="h-12 rounded-full border border-brass/60 text-sm text-brass font-medium transition-all hover:bg-brass/10">
+                    <button type="submit" className="h-12 rounded-xl border border-brass/50 text-sm text-brass font-medium hover:bg-brass/5 transition-colors">
                       اعتماد هذا البدء
                     </button>
                   </form>
@@ -263,11 +254,8 @@ export function WaqdApp() {
             {view.slippedToday ? (
               <button
                 type="button"
-                onClick={() => {
-                  setData(undoSlip(data, today));
-                  setFlameError(null);
-                }}
-                className="h-12 rounded-full border border-brass/60 text-sm text-brass font-medium transition-all hover:bg-brass/10"
+                onClick={() => { setData(undoSlip(data, today)); setFlameError(null); }}
+                className="h-12 rounded-xl border border-brass/50 text-sm text-brass font-medium hover:bg-brass/5 transition-colors"
               >
                 تراجع — أعد الشعلة
               </button>
@@ -276,33 +264,24 @@ export function WaqdApp() {
             {view.alive && view.canCorrect ? (
               <button
                 type="button"
-                onClick={() => {
-                  setStartAsk((open) => !open);
-                  setStartDate(view.anchor ?? today);
-                  setFlameError(null);
-                }}
-                className="h-11 text-sm text-clay transition-colors hover:text-ivory"
+                onClick={() => { setStartAsk((v) => !v); setStartDate(view.anchor ?? today); setFlameError(null); }}
+                className="h-11 text-sm text-clay hover:text-ivory transition-colors"
               >
                 تصحيح البداية، هذا اليوم فقط
               </button>
             ) : null}
             {view.alive && view.canCorrect && startAsk ? (
               <form
-                className="flex flex-col gap-3 rounded-2xl gradient-card border border-line/30 p-4 animate-scale-in"
-                onSubmit={(event) => {
-                  event.preventDefault();
-                  light(startDate);
-                }}
+                className="flex flex-col gap-3 rounded-2xl waqd-gradient-card border border-line/25 p-4 waqd-scale-pop"
+                onSubmit={(e) => { e.preventDefault(); light(startDate); }}
               >
                 <input
-                  type="date"
-                  max={today}
-                  value={startDate}
-                  onChange={(event) => setStartDate(event.target.value)}
+                  type="date" max={today} value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
                   aria-label="تاريخ بداية الشعلة"
-                  className="h-12 rounded-xl border border-line/40 bg-surface/50 px-4 text-base outline-none transition-all focus-visible:border-brass focus-visible:ring-1 focus-visible:ring-brass/30"
+                  className="h-12 rounded-xl border border-line/30 bg-surface px-4 text-base outline-none focus-visible:border-brass focus-visible:ring-1 focus-visible:ring-brass/20"
                 />
-                <button type="submit" className="h-12 rounded-full border border-brass/60 text-sm text-brass font-medium transition-all hover:bg-brass/10">
+                <button type="submit" className="h-12 rounded-xl border border-brass/50 text-sm text-brass font-medium hover:bg-brass/5 transition-colors">
                   حدّث البداية
                 </button>
               </form>
@@ -310,51 +289,39 @@ export function WaqdApp() {
 
             {view.alive ? (
               wasteAsk ? (
-                <div className="rounded-2xl gradient-card border border-line/30 p-4 animate-scale-in">
+                <div className="rounded-2xl waqd-gradient-card border border-line/25 p-4 waqd-scale-pop">
                   <p className="text-sm leading-relaxed text-clay">
                     إطفاء اليوم يُسقطه من السلسلة. الأيام التي قبله تبقى في رصيدك.
                   </p>
                   <div className="mt-3 flex gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setWasteAsk(false)}
-                      className="h-12 flex-1 rounded-full border border-line/40 text-sm transition-colors hover:bg-surface"
-                    >
+                    <button type="button" onClick={() => setWasteAsk(false)}
+                      className="h-12 flex-1 rounded-xl border border-line/30 text-sm hover:bg-surface transition-colors">
                       أبقِها
                     </button>
-                    <button
-                      type="button"
-                      data-testid="confirm-slip"
-                      onClick={() => {
-                        setData(slipFlame(data, today));
-                        setWasteAsk(false);
-                        setFlameError(null);
-                      }}
-                      className="h-12 flex-1 rounded-full bg-rose/20 text-sm font-medium text-rose transition-colors hover:bg-rose/30"
-                    >
+                    <button type="button" data-testid="confirm-slip"
+                      onClick={() => { setData(slipFlame(data, today)); setWasteAsk(false); setFlameError(null); }}
+                      className="h-12 flex-1 rounded-xl bg-rose/15 text-sm font-medium text-rose hover:bg-rose/25 transition-colors">
                       نعم، انطفأت
                     </button>
                   </div>
                 </div>
               ) : (
-                <button type="button" onClick={() => setWasteAsk(true)} className="h-11 text-sm text-clay transition-colors hover:text-rose">
+                <button type="button" onClick={() => setWasteAsk(true)} className="h-11 text-sm text-clay hover:text-rose transition-colors">
                   ضاع الوقت اليوم
                 </button>
               )
             ) : null}
             {flameError ? (
-              <p role="alert" className="rounded-xl bg-rose/10 px-4 py-2.5 text-center text-sm text-rose">
-                {flameError}
-              </p>
+              <p role="alert" className="rounded-xl bg-rose/10 px-4 py-2.5 text-center text-sm text-rose">{flameError}</p>
             ) : null}
           </div>
         </section>
 
         {/* ─── Today's Tasks ─── */}
-        <section aria-labelledby="today-heading" className="flex flex-col gap-3 animate-slide-up" style={{ animationDelay: "200ms" }}>
+        <section aria-labelledby="today-heading" className="flex flex-col gap-3 waqd-slide-up" style={{ animationDelay: "160ms" }}>
           <div className="flex items-center justify-between gap-3">
             <h2 id="today-heading" className="text-lg font-semibold flex items-center gap-2">
-              <span className="inline-block size-1.5 rounded-full bg-ember" />
+              <span className="inline-block size-2 rounded-full bg-ember" />
               عهد اليوم
             </h2>
             {todayPlan ? (
@@ -367,9 +334,9 @@ export function WaqdApp() {
           {todayPlan ? (
             <TodayCard plan={todayPlan} today={today} onToggle={(taskId) => setData(toggleTask(data, today, today, taskId))} />
           ) : (
-            <div className="rounded-2xl border border-dashed border-line/30 px-5 py-6 text-center">
-              <Calendar className="mx-auto size-8 text-clay/30 mb-3" />
-              <p className="text-sm leading-relaxed text-clay">
+            <div className="rounded-2xl border border-dashed border-line/25 px-5 py-8 text-center">
+              <Calendar className="mx-auto size-10 text-clay/20 mb-3" />
+              <p className="text-sm leading-relaxed text-clay/70">
                 لا عهد لهذا اليوم. اكتب مهام الغد قبل أن يأتي.
               </p>
             </div>
@@ -377,21 +344,21 @@ export function WaqdApp() {
         </section>
 
         {/* ─── Upcoming ─── */}
-        <section aria-labelledby="upcoming-heading" className="flex flex-col gap-3 animate-slide-up" style={{ animationDelay: "300ms" }}>
+        <section aria-labelledby="upcoming-heading" className="flex flex-col gap-3 waqd-slide-up" style={{ animationDelay: "240ms" }}>
           <h2 id="upcoming-heading" className="text-lg font-semibold flex items-center gap-2">
-            <span className="inline-block size-1.5 rounded-full bg-brass" />
+            <span className="inline-block size-2 rounded-full bg-brass" />
             قادم
           </h2>
           {upcoming.length === 0 ? (
-            <p className="text-sm leading-relaxed text-clay/70">لا عهود تنتظر. اليوم القادم ما زال صفحة بيضاء.</p>
+            <p className="text-sm leading-relaxed text-clay/60">لا عهود تنتظر. اليوم القادم ما زال صفحة بيضاء.</p>
           ) : (
             <ul className="flex flex-col gap-2">
               {upcoming.map((plan, i) => (
-                <li key={plan.id} className="animate-slide-up" style={{ animationDelay: `${(i + 1) * 80}ms` }}>
+                <li key={plan.id} className="waqd-slide-up" style={{ animationDelay: `${(i + 1) * 80}ms` }}>
                   <button
                     type="button"
                     onClick={() => openSheet(plan.date)}
-                    className="group flex min-h-16 w-full items-center justify-between gap-3 rounded-2xl gradient-card border border-line/30 px-4 py-3 text-start transition-all hover:border-brass/30 hover:shadow-md hover:shadow-brass/5"
+                    className="group flex min-h-[4.5rem] w-full items-center justify-between gap-3 rounded-2xl waqd-gradient-card border border-line/25 px-4 py-3 text-start transition-all hover:border-brass/30 hover:shadow-lg hover:shadow-brass/5"
                   >
                     <span>
                       <span className="block text-base font-medium">{relativeDay(plan.date, today)}</span>
@@ -402,12 +369,12 @@ export function WaqdApp() {
                         {plan.tasks.some((t) => t.time) ? (
                           <>
                             <span className="text-line">·</span>
-                            <Clock className="size-3 text-clay/60" />
+                            <Clock className="size-3 text-clay/50" />
                           </>
                         ) : null}
                       </span>
                     </span>
-                    <span className="text-sm text-brass opacity-0 transition-opacity group-hover:opacity-100">تعديل</span>
+                    <span className="text-sm text-brass opacity-0 transition-opacity group-hover:opacity-100">تعديل ←</span>
                   </button>
                 </li>
               ))}
@@ -416,13 +383,13 @@ export function WaqdApp() {
         </section>
 
         {/* ─── History ─── */}
-        <section aria-labelledby="history-heading" className="flex flex-col gap-3 animate-slide-up" style={{ animationDelay: "400ms" }}>
+        <section aria-labelledby="history-heading" className="flex flex-col gap-3 waqd-slide-up" style={{ animationDelay: "320ms" }}>
           <h2 id="history-heading" className="text-lg font-semibold flex items-center gap-2">
-            <span className="inline-block size-1.5 rounded-full bg-clay/60" />
+            <span className="inline-block size-2 rounded-full bg-clay/40" />
             السجل
           </h2>
           {history.length === 0 ? (
-            <p className="text-sm leading-relaxed text-clay/70">
+            <p className="text-sm leading-relaxed text-clay/60">
               حين ينتهي يوم العهد يغادر الواجهة ويبقى هنا، بما أُنجز وما لم يُنجز.
             </p>
           ) : (
@@ -435,19 +402,13 @@ export function WaqdApp() {
               {history.length > 4 ? (
                 <button
                   type="button"
-                  onClick={() => setShowAllHistory((open) => !open)}
-                  className="flex h-11 items-center justify-center gap-1.5 text-sm text-clay transition-colors hover:text-ivory"
+                  onClick={() => setShowAllHistory((v) => !v)}
+                  className="flex h-11 items-center justify-center gap-1.5 text-sm text-clay hover:text-ivory transition-colors"
                 >
                   {showAllHistory ? (
-                    <>
-                      <ChevronUp className="size-4" />
-                      أخفِ الأقدم
-                    </>
+                    <><ChevronUp className="size-4" />أخفِ الأقدم</>
                   ) : (
-                    <>
-                      <ChevronDown className="size-4" />
-                      أظهر الباقي · {toAr(history.length - 4)}
-                    </>
+                    <><ChevronDown className="size-4" />أظهر الباقي · {toAr(history.length - 4)}</>
                   )}
                 </button>
               ) : null}
@@ -455,21 +416,20 @@ export function WaqdApp() {
           )}
         </section>
 
-        {/* Footer note */}
-        <p className="text-center text-xs leading-relaxed text-clay/50 mt-2">
+        <p className="text-center text-xs leading-relaxed text-clay/40 mt-2">
           يبقى هذا السجل على جهازك، حتى بعد إغلاق الصفحة.
         </p>
       </main>
 
       {/* ─── FAB ─── */}
       {sheetDate ? null : (
-        <div className="fixed inset-x-0 bottom-0 z-30 bg-gradient-to-t from-ink via-ink/95 to-transparent pt-8">
+        <div className="fixed inset-x-0 bottom-0 z-30 waqd-gradient-fade-bottom pt-10">
           <div className="mx-auto w-full max-w-md px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
             <button
               type="button"
               data-testid="open-plan"
               onClick={() => openSheet()}
-              className="flex h-14 w-full items-center justify-center gap-2.5 rounded-2xl gradient-ember text-base font-semibold text-ink shadow-xl shadow-ember/25 transition-all hover:shadow-2xl hover:shadow-ember/35 active:scale-[0.98]"
+              className="flex h-14 w-full items-center justify-center gap-2.5 rounded-2xl waqd-gradient-ember text-base font-bold text-white shadow-xl shadow-ember/30 transition-transform active:scale-[0.97]"
             >
               <Plus className="size-5" strokeWidth={2.5} />
               خطّط ليومٍ قادم
@@ -503,38 +463,37 @@ function TodayCard({ plan, today, onToggle }: { plan: DayPlan; today: string; on
   const ratio = total === 0 ? 0 : done / total;
   const sortedTasks = sortByTime(plan.tasks);
   const allDone = done === total && total > 0;
-  
+
   return (
     <div className={clsx(
-      "rounded-2xl border bg-panel p-4 transition-all duration-300",
-      allDone ? "border-success/30 shadow-lg shadow-success/5" : "border-line/30",
+      "rounded-2xl border p-4 transition-all duration-500",
+      allDone
+        ? "waqd-gradient-card border-success/30 shadow-lg shadow-success/5"
+        : "waqd-gradient-card border-line/25",
     )}>
-      {/* Progress header */}
+      {/* Header */}
       <div className="flex items-center justify-between px-1 pb-3">
         <p className="text-sm text-clay">
           {toAr(done)} من {toAr(total)}
         </p>
-        <p className={clsx(
-          "text-sm font-medium",
-          allDone ? "text-success" : "text-brass",
-        )}>
+        <p className={clsx("text-sm font-semibold", allDone ? "text-success" : "text-brass")}>
           {allDone ? "✓ وُفي" : "يوم التنفيذ"}
         </p>
       </div>
-      
+
       {/* Progress bar */}
-      <div className="mx-1 mb-4 h-1.5 overflow-hidden rounded-full bg-line/20">
+      <div className="mx-1 mb-4 h-2 overflow-hidden rounded-full bg-line/15">
         <div
           className={clsx(
-            "h-full rounded-full transition-all duration-700 ease-out animate-progress-fill",
-            allDone ? "bg-success" : "gradient-brass",
+            "h-full rounded-full transition-all duration-700 ease-out waqd-progress",
+            allDone ? "bg-success" : "waqd-gradient-brass",
           )}
           style={{ width: `${Math.round(ratio * 100)}%` }}
         />
       </div>
 
-      {/* Task list */}
-      <ul className="flex flex-col gap-1">
+      {/* Tasks */}
+      <ul className="flex flex-col gap-0.5">
         {sortedTasks.map((task) => (
           <li key={task.id}>
             <button
@@ -542,14 +501,14 @@ function TodayCard({ plan, today, onToggle }: { plan: DayPlan; today: string; on
               data-testid="today-task"
               aria-pressed={task.done}
               onClick={() => onToggle(task.id)}
-              className="group flex min-h-12 w-full items-start gap-3 rounded-xl px-2 py-2 text-start transition-all hover:bg-surface/50"
+              className="group flex min-h-12 w-full items-start gap-3 rounded-xl px-2 py-2.5 text-start transition-colors hover:bg-surface/40"
             >
               <span
                 className={clsx(
                   "mt-0.5 grid size-6 shrink-0 place-items-center rounded-full border-2 transition-all duration-200",
                   task.done
-                    ? "border-success bg-success text-ink animate-check-pop"
-                    : "border-clay/30 group-hover:border-clay/60",
+                    ? "border-success bg-success text-ink waqd-check"
+                    : "border-clay/25 group-hover:border-clay/50",
                 )}
               >
                 {task.done ? <Check className="size-3.5" strokeWidth={3} /> : null}
@@ -557,7 +516,7 @@ function TodayCard({ plan, today, onToggle }: { plan: DayPlan; today: string; on
               <div className="flex-1 min-w-0">
                 <span className={clsx(
                   "text-base leading-snug break-words transition-all duration-200",
-                  task.done && "text-clay/60 line-through",
+                  task.done && "text-clay/50 line-through",
                 )}>
                   {task.title}
                 </span>
@@ -581,11 +540,11 @@ function HistoryCard({ plan, today, index }: { plan: DayPlan; today: string; ind
   const { done, total } = doneCount(plan);
   const ratio = total === 0 ? 0 : done / total;
   const allDone = done === total && total > 0;
-  const verdict = allDone ? "عهدٌ وُفي" : done === 0 ? "لم يُنجز شيء" : "أُنجز بعضه";
-  
+  const verdict = allDone ? "عهدٌ وُفي ✓" : done === 0 ? "لم يُنجز شيء" : "أُنجز بعضه";
+
   return (
     <li
-      className="rounded-2xl gradient-card border border-line/20 px-4 py-4 animate-slide-up"
+      className="rounded-2xl waqd-gradient-card border border-line/20 px-4 py-4 waqd-slide-up"
       style={{ animationDelay: `${index * 60}ms` }}
     >
       <div className="flex items-baseline justify-between gap-3">
@@ -593,14 +552,13 @@ function HistoryCard({ plan, today, index }: { plan: DayPlan; today: string; ind
         <div className="flex items-center gap-2">
           {/* Mini progress ring */}
           <svg className="size-5" viewBox="0 0 20 20">
-            <circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" strokeWidth="2" className="text-line/20" />
+            <circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" strokeWidth="2" className="text-line/15" />
             <circle
               cx="10" cy="10" r="8" fill="none"
-              strokeWidth="2"
-              strokeLinecap="round"
+              strokeWidth="2" strokeLinecap="round"
               strokeDasharray={`${ratio * 50.27} 50.27`}
               transform="rotate(-90 10 10)"
-              className={clsx(allDone ? "text-success" : done === 0 ? "text-clay/30" : "text-brass")}
+              className={clsx(allDone ? "text-success" : done === 0 ? "text-clay/20" : "text-brass")}
               stroke="currentColor"
             />
           </svg>
@@ -609,21 +567,19 @@ function HistoryCard({ plan, today, index }: { plan: DayPlan; today: string; ind
           </p>
         </div>
       </div>
-      <p className="mt-0.5 text-xs text-clay/60">{formatDay(plan.date)}</p>
+      <p className="mt-0.5 text-xs text-clay/50">{formatDay(plan.date)}</p>
       <ul className="mt-3 flex flex-col gap-1.5">
         {plan.tasks.map((task) => (
           <li key={task.id} className="flex items-start gap-2 text-sm leading-snug">
             {task.done ? (
               <Check className="mt-0.5 size-4 shrink-0 text-success" />
             ) : (
-              <Circle className="mt-0.5 size-4 shrink-0 text-clay/40" />
+              <Circle className="mt-0.5 size-4 shrink-0 text-clay/30" />
             )}
             <div className="flex-1 min-w-0">
-              <span className={clsx("break-words", task.done ? "text-ivory/80" : "text-clay/60")}>{task.title}</span>
+              <span className={clsx("break-words", task.done ? "text-ivory/80" : "text-clay/50")}>{task.title}</span>
               {task.time ? (
-                <span className="mr-2 text-xs text-clay/40">
-                  {formatTime(task.time)}
-                </span>
+                <span className="mr-2 text-xs text-clay/40">{formatTime(task.time)}</span>
               ) : null}
             </div>
           </li>
@@ -631,7 +587,7 @@ function HistoryCard({ plan, today, index }: { plan: DayPlan; today: string; ind
       </ul>
       <p className={clsx(
         "mt-3 text-sm font-medium",
-        allDone ? "text-success" : done === 0 ? "text-clay/50" : "text-brass",
+        allDone ? "text-success" : done === 0 ? "text-clay/40" : "text-brass",
       )}>{verdict}</p>
     </li>
   );

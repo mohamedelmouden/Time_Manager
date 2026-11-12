@@ -16,7 +16,6 @@ export function TimeRunner({ time, today, done }: Props) {
     return () => clearInterval(interval);
   }, []);
 
-  // Suppress unused warning — `now` triggers re-render on interval
   void now;
 
   const remaining = timeRemaining(time, today);
@@ -26,7 +25,7 @@ export function TimeRunner({ time, today, done }: Props) {
     return (
       <span className="inline-flex items-center gap-1.5 rounded-lg bg-success/10 px-2.5 py-1 text-xs text-success">
         <span className="size-1.5 rounded-full bg-success" />
-        {formattedTime} · تم
+        {formattedTime} · تم ✓
       </span>
     );
   }
@@ -34,7 +33,7 @@ export function TimeRunner({ time, today, done }: Props) {
   if (remaining.isOverdue) {
     return (
       <span className="inline-flex items-center gap-1.5 rounded-lg bg-rose/10 px-2.5 py-1 text-xs text-rose">
-        <span className="size-1.5 rounded-full bg-rose animate-timer-pulse" />
+        <span className="size-1.5 rounded-full bg-rose waqd-timer-blink" />
         {formattedTime} · فات الموعد
       </span>
     );
@@ -43,7 +42,7 @@ export function TimeRunner({ time, today, done }: Props) {
   if (remaining.totalMinutes <= 30) {
     return (
       <span className="inline-flex items-center gap-1.5 rounded-lg bg-brass/10 px-2.5 py-1 text-xs text-brass">
-        <span className="size-1.5 rounded-full bg-brass animate-timer-pulse" />
+        <span className="size-1.5 rounded-full bg-brass waqd-timer-blink" />
         {formattedTime} · {remaining.totalMinutes > 0 ? `${toAr(remaining.minutes)} د` : "الآن"}
       </span>
     );
@@ -56,7 +55,7 @@ export function TimeRunner({ time, today, done }: Props) {
     )}>
       <span className={clsx(
         "size-1.5 rounded-full",
-        remaining.totalMinutes <= 60 ? "bg-ember-light" : "bg-clay/50"
+        remaining.totalMinutes <= 60 ? "bg-ember-light" : "bg-clay/40"
       )} />
       {formattedTime}
       {remaining.hours > 0 ? ` · ${toAr(remaining.hours)} س` : ""}
@@ -80,21 +79,20 @@ export function TimeProgressBar({ time, today, done }: Props) {
   if (done) return null;
 
   return (
-    <div className="relative h-0.5 w-full overflow-hidden rounded-full bg-line/30">
+    <div className="relative h-0.5 w-full overflow-hidden rounded-full bg-line/20">
       <div
         className={clsx(
-          "h-full rounded-full transition-all duration-1000 animate-progress-fill",
+          "h-full rounded-full transition-all duration-1000 waqd-progress",
           remaining.isOverdue
             ? "bg-rose"
             : remaining.totalMinutes <= 30
               ? "bg-brass"
               : remaining.totalMinutes <= 60
                 ? "bg-ember"
-                : "bg-clay/30",
+                : "bg-clay/20",
         )}
         style={{ width: `${remaining.percent}%` }}
       />
     </div>
   );
 }
-

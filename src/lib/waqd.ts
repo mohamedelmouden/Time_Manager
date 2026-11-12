@@ -47,7 +47,8 @@ export type FlameView = {
 export const STORAGE_KEY = "waqd.v1";
 export const MAX_TASKS = 8;
 
-const AR_DIGITS = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
+// Use Western/French digits
+const AR_DIGITS: string[] | null = null;
 const WEEKDAYS = ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
 const WEEK_LETTER = ["ح", "ن", "ث", "ر", "خ", "ج", "س"];
 const MONTHS = [
@@ -68,7 +69,7 @@ const MONTHS = [
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 export function toAr(n: number): string {
-  return String(n).replace(/\d/g, (d) => AR_DIGITS[Number(d)] ?? d);
+  return String(n);
 }
 
 export function dateKey(d = new Date()): string {
@@ -442,13 +443,13 @@ export function saveStore(data: StoreData): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
 
-/** Format HH:MM to Arabic 12h format */
+/** Format HH:MM to Arabic 12h format with French digits */
 export function formatTime(time: string): string {
   const [h, m] = time.split(":").map(Number);
   if (h === undefined || m === undefined) return "";
   const period = h >= 12 ? "م" : "ص";
   const hour12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
-  return `${toAr(hour12)}:${toAr(m).padStart(2, "٠")} ${period}`;
+  return `${hour12}:${String(m).padStart(2, "0")} ${period}`;
 }
 
 /** Get time remaining for a task scheduled today, returns { hours, minutes, isOverdue, totalMinutes } */
