@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<style>
+  @font-face {
+    font-family: "Amiri";
+    src: url("fonts/Amiri-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+  }
+  html, body {
+    margin: 0;
+    width: 1200px;
+    height: 630px;
+    overflow: hidden;
+    background: #12100e;
+  }
+  .card {
+    position: relative;
+    width: 1200px;
+    height: 630px;
+    background:
+      radial-gradient(ellipse 640px 480px at 50% 44%, rgba(255, 106, 42, 0.16), rgba(228, 181, 106, 0.04) 46%, rgba(18, 16, 14, 0) 72%),
+      radial-gradient(ellipse 1200px 700px at 50% 50%, rgba(18, 16, 14, 0) 58%, rgba(0, 0, 0, 0.38) 100%),
+      #12100e;
+  }
+  .mark {
+    position: absolute;
+    left: 50%;
+    top: 28px;
+    width: 448px;
+    height: 448px;
+    transform: translateX(-50%);
+  }
+  .word {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 482px;
+    margin: 0;
+    text-align: center;
+    font-family: "Amiri", "Noto Naskh Arabic", serif;
+    font-weight: 700;
+    font-size: 108px;
+    line-height: 1;
+    color: #f3ece2;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <svg class="mark" viewBox="0 0 448 448" aria-hidden="true">
+      <defs>
+        <radialGradient id="ember" cx="50%" cy="62%" r="38%">
+          <stop offset="0%" stop-color="#ff6a2a" stop-opacity="0.42"/>
+          <stop offset="100%" stop-color="#ff6a2a" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle cx="224" cy="262" r="78" fill="url(#ember)"/>
+      <circle cx="224" cy="214" r="176" fill="none" stroke="#e4b56a" stroke-width="8"/>
+      <g transform="translate(112, 62) scale(1.8667)">
+        <ellipse cx="60" cy="148" rx="22" ry="6" fill="#ff6a2a" fill-opacity="0.55"/>
+        <path fill="#ff6a2a" d="M60 146c-22 0-40-20-36-48 3-22-4-34 4-50 6-14 14-22 10-36 8 16 14 18 22 16 8 2 14 0 22-16-4 14 4 22 10 36 8 16 1 28 4 50 4 28-14 48-36 48z"/>
+        <path fill="#e4b56a" d="M60 128c-14-2-26-18-22-40 3-16-2-24 4-36 6 10 12 12 18 10 6 2 12 0 18-10 6 12 1 20 4 36 4 22-8 38-22 40z"/>
+        <path fill="#f3ece2" d="M60 108c-6 2-10 12-8 24 6-8 10-8 16 0 2-12-2-22-8-24z"/>
+      </g>
+    </svg>
+    <p class="word">وَقْد</p>
+  </div>
+</body>
+</html>
